@@ -8,7 +8,7 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="shareModalLabel">Share</h5>
+        <h5 class="modal-title" id="shareModalLabel">{{ __('Share') }}</h5>
         <button
           type="button"
           class="btn-close"
@@ -17,9 +17,9 @@
         ></button>
       </div>
       <div class="modal-body">
-        <p>Anyone with access to this URL will be invited to this editor.</p>
+        <p>{{ __('Anyone with access to this URL will be invited to this editor.') }}</p>
         <div class="mb-3">
-          <label for="shareInput" class="form-label">Share this URL</label>
+          <label for="shareInput" class="form-label">{{ __('Share this URL') }}</label>
           <input
             id="shareInput"
             type="text"
@@ -31,7 +31,7 @@
       </div>
       <div class="modal-footer">
         <button id="copyButton" type="button" class="btn btn-primary">
-          Copy
+          {{ __('Copy') }}
         </button>
       </div>
     </div>

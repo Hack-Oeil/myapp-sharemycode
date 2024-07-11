@@ -1,19 +1,20 @@
 const USER_STORE = [];
+import i18n from "../i18n/i18n.js";
 
 function createUser(id, name, room) {
   const existingUser = USER_STORE.find((user) => user.name === name);
 
   if (existingUser) {
-    return { error: "Username has already been taken" };
+    return { error: i18n.__("Username has already been taken") };
   }
   if (!name && !room) {
-    return { error: "Username and Room are required" };
+    return { error: i18n.__("Username and Room are required") };
   }
   if (!name) {
-    return { error: "Username is required" };
+    return { error: i18n.__("Username is required") };
   }
   if (!room) {
-    return { error: "Room is required" };
+    return { error: i18n.__("Room is required") };
   }
 
   const user = { id, name, room };

@@ -5,7 +5,7 @@
   aria-labelledby="settingsDrawerLabel"
 >
   <div class="offcanvas-header">
-    <h5 class="offcanvas-title">Settings</h5>
+    <h5 class="offcanvas-title">{{ __('Settings') }}</h5>
     <button
       type="button"
       class="btn-close text-reset"
@@ -15,7 +15,7 @@
   </div>
   <div class="offcanvas-body">
     <div class="mb-3">
-      <label for="modeSelect" class="form-label">Language</label>
+      <label for="modeSelect" class="form-label">{{ __('Language') }}</label>
       <select id="modeSelect" class="form-select">
         <option value="ace/mode/abap">ABAP</option>
         <option value="ace/mode/abc">ABC</option>
@@ -205,7 +205,7 @@
       </select>
     </div>
     <div class="mb-3">
-      <label for="tabSizeSelect" class="form-label">Tab Size</label>
+      <label for="tabSizeSelect" class="form-label">{{ __('Tab Size') }}</label>
       <select id="tabSizeSelect" class="form-select">
         <option value="2">2</option>
         <option value="4" selected>4</option>
@@ -214,11 +214,11 @@
       </select>
     </div>
     <div class="mb-3">
-      <label for="fontSizeInput" class="form-label">Font Size</label>
+      <label for="fontSizeInput" class="form-label">{{ __('Font Size') }}</label>
       <input id="fontSizeInput" type="number" class="form-control" value="14" />
     </div>
     <div class="mb-3">
-      <label for="themeSelect" class="form-label">Theme</label>
+      <label for="themeSelect" class="form-label">{{ __('Theme') }}</label>
       <select id="themeSelect" class="form-select">
         <option value="ace/theme/ambiance">Ambiance</option>
         <option value="ace/theme/chaos">Chaos</option>

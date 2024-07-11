@@ -1,0 +1,31 @@
+{
+    "Share code with other developers with ease": "Share code with other developers with ease",
+    "An online code editor for interviews, troubleshooting, teaching & more…": "An online code editor for interviews, troubleshooting, teaching & more…",
+    "Start sharing": "Start sharing",
+
+    "Share this room" : "Share this room",
+    "Show settings": "Show settings",
+    "Show everyone": "Show everyone",
+    "Chat with everyone": "Chat with everyone",
+    "Download this code": "Download this code",
+    "Open new editor": "Open new editor",
+    "Chat": "Chat",
+    "People": "People",
+    "Settings": "Settings",
+    "Language": "Language",
+    "Tab Size": "Tab Size",
+    "Font Size":"Font Size",
+    "Theme":"Theme",
+    "Join": "Join",
+    "Username": "Username",
+
+    "Share": "Share",
+    "Anyone with access to this URL will be invited to this editor.": "Anyone with access to this URL will be invited to this editor.",
+    "Share this URL": "Share this URL",
+    "Copy": "Copy",
+
+    "Username has already been taken": "Username has already been taken",
+    "Username and Room are required": "Username and Room are required",
+    "Username is required":"Username is required",
+    "Room is required": "Room is required"
+}

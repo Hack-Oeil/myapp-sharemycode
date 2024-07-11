@@ -7,20 +7,18 @@ import nunjucks from "nunjucks";
 import { Server } from "socket.io";
 // eslint-disable-next-line import/extensions
 import userStore from "./store/user.js";
+import i18n from "./i18n/i18n.js";
+import dotenv from 'dotenv';
+dotenv.config({path:'.env'});
 
-const filename = fileURLToPath(import.meta.url);
-const directory = dirname(filename);
 
+const directory = dirname(fileURLToPath(import.meta.url));
 const app = express();
 const server = createServer(app);
 const io = new Server(server);
 
-const DEVELOPMENT_MODE = app.get("env") === "development";
-
+const DEVELOPMENT_MODE = app.get("env") !== "production";
 const PORT = process.env.PORT || 3000;
-
-const PUBLIC_FOLDER = join(directory, "public");
-const VIEWS_FOLDER = join(directory, "views");
 
 nunjucks.configure("views", {
   autoescape: true,
@@ -29,10 +27,17 @@ nunjucks.configure("views", {
   noCache: DEVELOPMENT_MODE
 });
 
-app.use(compression());
-app.use("/", express.static(PUBLIC_FOLDER));
+// Middleware pour changer la langue
+app.use(i18n.init, (req, res, next) => {
+    i18n.setLocale(process.env.LANGUAGE??"fr_FR");
+    next();
+});
 
-app.set("views", VIEWS_FOLDER);
+app.use(compression());
+app.use("/", express.static(join(directory, "public")));
+
+
+app.set("views", join(directory, "views"));
 app.set("view engine", "html");
 
 app.get("/new-editor/", (req, res) => {

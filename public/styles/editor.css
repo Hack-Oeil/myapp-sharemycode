@@ -7,7 +7,7 @@
 .editor-container {
   position: relative;
   overflow: auto;
-  height: calc(100vh - 3.5rem);
+  height: 100vh;
 }
 
 .chat-container {

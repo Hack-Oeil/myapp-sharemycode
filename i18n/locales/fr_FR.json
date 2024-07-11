@@ -1,0 +1,31 @@
+{
+    "Share code with other developers with ease": "Partagez facilement du code avec d'autres développeurs",
+    "An online code editor for interviews, troubleshooting, teaching & more…": "Un éditeur de code en ligne pour les entretiens, le dépannage, l'enseignement et plus encore…",
+    "Start sharing": "Commencez à partager",
+
+    "Share this room": "Partager cette salle",
+    "Show settings": "Afficher les paramètres",
+    "Show everyone": "Montrer à tout le monde",
+    "Chat with everyone": "Discutez avec tout le monde",
+    "Download this code": "Téléchargez ce code",
+    "Open new editor": "Ouvrir un nouvel éditeur",
+    "Chat": "Discussion",
+    "People": "Utilisateurs",
+    "Settings": "Paramètres",
+    "Language": "Langue",
+    "Tab Size": "Taille des tabulations",
+    "Font Size": "Taille de police",
+    "Theme": "Thème",
+    "Join": "Rejoindre",
+    "Username": "Nom d'utilisateur",
+
+    "Share": "Partager",
+    "Anyone with access to this URL will be invited to this editor.": "Toute personne ayant accès à cette URL sera invitée dans cet éditeur.",
+    "Share this URL": "Partager cette URL",
+    "Copy": "Copie",
+
+    "Username has already been taken": "Le nom d'utilisateur est déjà pris",
+    "Username and Room are required": "Le nom d'utilisateur et la salle sont requis",
+    "Username is required":"Le nom d'utilisateur est nécessaire",
+    "Room is required": "La salle est requise"
+}

@@ -11,7 +11,7 @@
 
 <div class="toolbar-container btn-group-vertical" role="group">
   <button
-    title="Share this room"
+    title="{{ __('Share this room') }}"
     type="button"
     class="btn btn-secondary btn-lg"
     data-bs-toggle="modal"
@@ -20,7 +20,7 @@
     <i class="bi bi-send-plus-fill fs-4"></i>
   </button>
   <button
-    title="Show settings"
+    title="{{ __('Show settings') }}"
     type="button"
     class="btn btn-secondary btn-lg"
     data-bs-toggle="offcanvas"
@@ -30,7 +30,7 @@
     <i class="bi bi-gear-fill fs-4"></i>
   </button>
   <button
-    title="Show everyone"
+    title="{{ __('Show everyone') }}"
     type="button"
     class="btn btn-secondary btn-lg position-relative"
     data-bs-toggle="offcanvas"
@@ -46,7 +46,7 @@
     </span>
   </button>
   <button
-    title="Chat with everyone"
+    title="{{ __('Chat with everyone') }}"
     type="button"
     class="btn btn-secondary btn-lg"
     data-bs-toggle="offcanvas"
@@ -64,14 +64,14 @@
   </button>
   <button
     id="downloadButton"
-    title="Download this code"
+    title="{{ __('Download this code') }}"
     type="button"
     class="btn btn-secondary btn-lg"
   >
     <i class="bi bi-file-earmark-arrow-down-fill fs-4"></i>
   </button>
   <a
-    title="Open new editor"
+    title="{{ __('Open new editor') }}"
     class="btn btn-secondary btn-lg"
     href="/new-editor/"
     role="button"
