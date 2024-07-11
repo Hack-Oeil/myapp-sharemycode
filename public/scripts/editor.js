@@ -141,7 +141,7 @@ onDocumentReady(() => {
     tabSize: 4,
     fontSize: 14,
     theme: "ace/theme/monokai",
-    value: 'console.log("Hello World!");',
+    value: '',
     enableBasicAutocompletion: true,
     enableSnippets: false,
     enableLiveAutocompletion: true
