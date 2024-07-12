@@ -1,8 +1,9 @@
-# Share My Code
+# Fork Share My Code
 
-A web app that facilitates realtime sharing of code editor using socket.io library.
+A Fork web app that facilitates realtime sharing of code editor using socket.io library.
+I added different functionalities and adapted to my needs for my training,
+The original repository is: https://github.com/kaushalmeena/myapp-sharemycode
 
-Live version is deployed at [https://sharemycode.onrender.com/](https://sharemycode.onrender.com/)
 
 ## Getting Started
 
@@ -22,7 +23,7 @@ To set up everything in your local machine, you need to follow these steps:
 1. Clone this repo and then change directory to the `myapp-sharemycode` folder:
 
 ```bash
-git clone https://github.com/kaushalmeena/myapp-sharemycode.git
+git clone https://github.com/Hack-Oeil/myapp-sharemycode
 cd myapp-sharemycode
 ```
 
