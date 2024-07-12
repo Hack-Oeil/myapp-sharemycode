@@ -53,15 +53,17 @@ function showToast(message, container) {
 
 function getChatMessage(username, message, type = "right") {
   const date = new Date();
-  const time = date.toLocaleTimeString("en-US", {
+  const time = date.toLocaleTimeString("fr-FR", {
     hour: "numeric",
     minute: "numeric"
   });
   return `
     <div class="chat-bubble chat-bubble-${type} px-3 py-1">
-      <div class="text-left"><small class="text-muted">~${username}</small></div>
+      <div class="text-muted block-info">
+        <small class="username">${username}</small>
+        <small>${time}</small>
+      </div>
       <div class="text-left">${message}</div>
-      <div class="text-left"><small class="text-muted">${time}</small></div>
     </div>
   `;
 }
@@ -218,6 +220,7 @@ onDocumentReady(() => {
     chatContainerEl.insertAdjacentHTML("beforeend", messageHTML);
     chatContainerEl.scrollTo({ top: chatContainerEl.scrollHeight });
     socket.emit("chatMessage", message);
+    chatInputEl.value="";
   };
 
   chatDrawerEl.addEventListener("shown.bs.offcanvas", () => {

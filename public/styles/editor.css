@@ -56,3 +56,17 @@
   border-color: var(--bs-blue) transparent transparent transparent;
   content: " ";
 }
+
+.chat-bubble .block-info {
+  display:inline-block;
+  width:100%;
+}
+
+.chat-bubble .block-info {
+  display:inline-block;
+  width:100%;
+}
+.chat-bubble .block-info .username {
+  display:inline-block;
+  width:70%;
+}
