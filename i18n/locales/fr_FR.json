@@ -26,6 +26,6 @@
 
     "Username has already been taken": "Le nom d'utilisateur est déjà pris",
     "Username and Room are required": "Le nom d'utilisateur et la salle sont requis",
-    "Username is required":"Le nom d'utilisateur est nécessaire",
+    "Username is required":"Le nom d'utilisateur est nécessaire et doit avoir une longueur supérieur à 3 caractères",
     "Room is required": "La salle est requise"
 }

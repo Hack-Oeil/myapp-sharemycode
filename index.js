@@ -7,6 +7,7 @@ import nunjucks from "nunjucks";
 import { Server } from "socket.io";
 // eslint-disable-next-line import/extensions
 import userStore from "./store/user.js";
+import roomStore from "./store/room.js";
 import i18n from "./i18n/i18n.js";
 import dotenv from 'dotenv';
 dotenv.config({path:'.env'});
@@ -65,12 +66,17 @@ server.listen(PORT, () => {
 
 io.on("connection", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
-    const { user, error } = userStore.createUser(socket.id, name, room);
+    let realRoom = roomStore.fetchRoom(room);
+    if(realRoom == undefined) {
+      realRoom = roomStore.createRoom(room, name);
+      socket.emit('userRommOwner', room);
+    }
+    const { user, error } = userStore.createUser(socket.id, name, realRoom);
     if (error) {
       return callback(error);
     }
-    const usersInRoom = userStore.fetchUsersInRoom(room);
-    socket.join(user.room);
+    const usersInRoom = userStore.fetchUsersInRoom(realRoom);
+    socket.join(user.room.id);
     socket.in(room).emit("notification", `${user.name} just entered the room`);
     io.in(room).emit("usersChange", usersInRoom);
     return callback();
@@ -80,32 +86,32 @@ io.on("connection", (socket) => {
     const user = userStore.fetchUser(socket.id);
     if (user) {
       socket
-        .in(user.room)
+        .in(user.room.id)
         .emit("chatMessage", { username: user.name, message });
     }
   });
 
   socket.on("codeChange", (code) => {
     const user = userStore.fetchUser(socket.id);
-    if (user) {
-      socket.in(user.room).emit("codeChange", code);
+    if (user && user.room.owner === user.name) {
+      socket.in(user.room.id).emit("codeChange", code);
     }
   });
 
   socket.on("langChange", ({ name, lang }) => {
     const user = userStore.fetchUser(socket.id);
-    if (user) {
+    if (user && user.room.owner === user.name) {
       socket
-        .in(user.room)
+        .in(user.room.id)
         .emit("notification", `User ${user.name} changed language to ${name}`);
-      socket.in(user.room).emit("langChange", { name, lang });
+      socket.in(user.room.id).emit("langChange", { name, lang });
     }
   });
 
   socket.on("disconnect", () => {
     const user = userStore.deleteUser(socket.id);
     if (user) {
-      const usersInRoom = userStore.fetchUsersInRoom(user.room);
+      const usersInRoom = userStore.fetchUsersInRoom(user.room.id);
       io.in(user.room).emit("notification", `${user.name} just left the room`);
       io.in(user.room).emit("usersChange", usersInRoom);
     }

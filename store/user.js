@@ -10,7 +10,7 @@ function createUser(id, name, room) {
   if (!name && !room) {
     return { error: i18n.__("Username and Room are required") };
   }
-  if (!name) {
+  if (!name || name.length < 3) {
     return { error: i18n.__("Username is required") };
   }
   if (!room) {
@@ -36,7 +36,7 @@ function deleteUser(id) {
 }
 
 function fetchUsersInRoom(room) {
-  return USER_STORE.filter((user) => user.room === room);
+  return USER_STORE.filter((user) => user.room.id === room.id);
 }
 
 const store = {

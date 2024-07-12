@@ -4,6 +4,8 @@ const modeList = ace.require("ace/ext/modelist");
 const languageTools = ace.require("ace/ext/language_tools");
 
 const socket = io();
+let currentUsername = localStorage.getItem('username') || null;
+let currentRoom = localStorage.getItem('current_room') || null;
 
 function getFileExtension() {
   const modeValue = codeEditor.getOption("mode");
@@ -81,6 +83,8 @@ function getPeopleList(users) {
 }
 
 function handleCodeChange() {
+  // On permet pas la modification si on est pas le propriétaire
+  if(!ownerOfCurrentRoom()) return;
   let prevCode = "";
   let timeoutId;
 
@@ -92,7 +96,7 @@ function handleCodeChange() {
         socket.emit("codeChange", code);
         prevCode = code;
       }
-    }, 1500);
+    }, 500);
   };
 }
 
@@ -105,6 +109,25 @@ function onDocumentReady(fn) {
   } else {
     document.addEventListener("DOMContentLoaded", fn);
   }
+}
+
+
+function listOfRoomsIOwn() {
+  const owner = localStorage.getItem("owner");
+  return owner ? JSON.parse(owner) : [];
+}
+
+function addRoomsIOwn(room) {
+  const owner = listOfRoomsIOwn();
+  if (!owner.includes(room)) { 
+    owner.push(room);
+    localStorage.setItem("owner", JSON.stringify(owner));
+    localStorage.setItem('current_room', room);
+  }
+}
+
+function ownerOfCurrentRoom() {
+  return listOfRoomsIOwn().includes(localStorage.getItem('current_room'));
 }
 
 onDocumentReady(() => {
@@ -146,18 +169,25 @@ onDocumentReady(() => {
     value: '',
     enableBasicAutocompletion: true,
     enableSnippets: false,
-    enableLiveAutocompletion: true
+    enableLiveAutocompletion: true,
+    readOnly: !ownerOfCurrentRoom() // On permet pas la modification si on est pas le propriétaire
   });
 
   codeEditor.on("change", handleCodeChange());
 
-  modeSelectEl.onchange = (event) => {
-    codeEditor.setOption("mode", event.target.value);
-    socket.emit("langChange", {
-      lang: modeSelectEl.value,
-      name: modeSelectEl.options[modeSelectEl.selectedIndex].text
-    });
-  };
+  if(ownerOfCurrentRoom()) {
+    modeSelectEl.onchange = (event) => {
+      // On permet pas la modification si on est pas le propriétaire
+      if(!ownerOfCurrentRoom()) return;
+      codeEditor.setOption("mode", event.target.value);
+      socket.emit("langChange", {
+        lang: modeSelectEl.value,
+        name: modeSelectEl.options[modeSelectEl.selectedIndex].text
+      });
+    };
+  } else {
+    modeSelectEl.disabled = "true";
+  }
 
   tabSizeSelectEl.onchange = (event) => {
     codeEditor.setOption("tabSize", +event.target.value);
@@ -200,6 +230,10 @@ onDocumentReady(() => {
         usernameInputEl.classList.add("is-invalid");
         usernameErrorEl.innerHTML = error;
       } else {
+        currentUsername = usernameInputEl.value.trim();
+        addRoomsIOwn(shareInputEl.dataset.room);
+        localStorage.setItem('username', currentUsername);
+        
         JoinModal.hide();
       }
     });
@@ -250,13 +284,38 @@ onDocumentReady(() => {
   });
 
   socket.on("codeChange", (code) => {
-    const cursorPosition = codeEditor.getCursorPositionScreen();
-    codeEditor.setValue(code, cursorPosition);
+    if(ownerOfCurrentRoom()) {
+      codeEditor.setReadOnly(false);
+      const cursorPosition = codeEditor.getCursorPositionScreen();
+      codeEditor.setValue(code, cursorPosition);
+      codeEditor.setReadOnly(true);
+    }
   });
 
   socket.on("notification", (message) => {
     showToast(message, toastContainerEl);
   });
 
-  JoinModal.show();
+  socket.on("userRommOwner", (room) => {
+    addRoomsIOwn(room);
+  });
+  
+  if(currentUsername === null || currentUsername === undefined || currentUsername.length<3) {
+    JoinModal.show();
+  } else {
+    // Sinon on essaye de connecté avec l'info dans le localstorage
+    socket.emit(
+      "join", 
+      { room: shareInputEl.dataset.room, name: currentUsername }, 
+      (error) => {
+        // En cas d'erreur on efface le pseudo et on supprime le pseudo actuel
+        if (error) {
+          localStorage.removeItem('username');
+          usernameInputEl.classList.add("is-invalid");
+          usernameErrorEl.innerHTML = error;
+          JoinModal.show();
+        }
+      }
+    );
+  }
 });
