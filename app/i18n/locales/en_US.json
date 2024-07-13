@@ -27,5 +27,12 @@
     "Username has already been taken": "Username has already been taken",
     "Username and Room are required": "Username and Room are required",
     "Username is required":"Username is required and must be longer than 3 characters",
-    "Room is required": "Room is required"
+    "Room is required": "Room is required",
+
+    "{{name}} just entered the room": "{{name}} vient de rejoindre la salle",
+    "User {{name}} changed language to {{language}}" : "User {{name}} changed language to {{language}}",
+    "{{name}} just left the room" : "{{name}} just left the room",
+
+    "Link copied to clipboard!": "Link copied to clipboard!",
+    "Could not copy text!": "Could not copy text!"
 }

@@ -20,6 +20,12 @@
     />
     {% block styles %}
     {% endblock %}
+    <script type="application/javascript">
+      const lang = {
+        copyOk : "{{ __('Link copied to clipboard!') }}",
+        copyError : "{{ __('Could not copy text!') }}"
+      };
+    </script>
   </head>
 
   <body>

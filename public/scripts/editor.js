@@ -185,8 +185,6 @@ onDocumentReady(() => {
         name: modeSelectEl.options[modeSelectEl.selectedIndex].text
       });
     };
-  } else {
-    modeSelectEl.disabled = "true";
   }
 
   tabSizeSelectEl.onchange = (event) => {
@@ -211,9 +209,9 @@ onDocumentReady(() => {
   copyButtonEl.onclick = async () => {
     try {
       await navigator.clipboard.writeText(shareInputEl.value);
-      showToast("Link copied to clipboard!", toastContainerEl);
+      showToast(lang.copyOk, toastContainerEl);
     } catch (error) {
-      showToast("Could not copy text!", toastContainerEl);
+      showToast(lang.copyError, toastContainerEl);
     } finally {
       ShareModal.hide();
     }
@@ -248,9 +246,8 @@ onDocumentReady(() => {
   };
 
   chatButtonEl.onclick = () => {
-    const username = usernameInputEl.value;
     const message = chatInputEl.value;
-    const messageHTML = getChatMessage(username, message, "right");
+    const messageHTML = getChatMessage(currentUsername, message, "right");
     chatContainerEl.insertAdjacentHTML("beforeend", messageHTML);
     chatContainerEl.scrollTo({ top: chatContainerEl.scrollHeight });
     socket.emit("chatMessage", message);
@@ -296,7 +293,10 @@ onDocumentReady(() => {
     showToast(message, toastContainerEl);
   });
 
+  // Si l'utilisateur est propriétaire de l'éditeur
   socket.on("userRommOwner", (room) => {
+    modeSelectEl.disabled = false;
+    codeEditor.setReadOnly(false);
     addRoomsIOwn(room);
   });
   

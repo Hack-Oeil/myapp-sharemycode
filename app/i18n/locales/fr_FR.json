@@ -27,5 +27,12 @@
     "Username has already been taken": "Le nom d'utilisateur est déjà pris",
     "Username and Room are required": "Le nom d'utilisateur et la salle sont requis",
     "Username is required":"Le nom d'utilisateur est nécessaire et doit avoir une longueur supérieur à 3 caractères",
-    "Room is required": "La salle est requise"
+    "Room is required": "La salle est requise",
+
+    "{{name}} just entered the room": "{{name}} vient de rejoindre la salle",
+    "User {{name}} changed language to {{language}}" : "L'utilisateur {{name}} a changé le langage en {{language}}",
+    "{{name}} just left the room" : "{{name}} vient de quitter la salle",
+
+    "Link copied to clipboard!": "Lien copié dans le presse-papier!",
+    "Could not copy text!": "Impossible de copier le texte!"
 }

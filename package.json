@@ -14,7 +14,7 @@
   "type": "module",
   "scripts": {
     "start": "cross-env NODE_ENV=production node index.js",
-    "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "dev": "cross-env NODE_ENV=development nodemon index.js --ignore 'storage/*'",
     "lint:check": "eslint .",
     "lint:fix": "eslint . --fix"
   },

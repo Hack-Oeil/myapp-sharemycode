@@ -1,8 +1,8 @@
 const ROOM_STORE = [];
 
-function createRoom(id, owner) {
+function createRoom(id, owner, mode) {
 
-    const room = { id, owner };
+    const room = { id, owner, mode };
     ROOM_STORE.push(room);
 
     return room;

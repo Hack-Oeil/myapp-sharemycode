@@ -1,6 +1,9 @@
 # Dependency directories
 node_modules/
 
+!storage/.gitkeep
+storage/*
+
 # Misc
 .DS_Store
 .vscode
