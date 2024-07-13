@@ -18,7 +18,6 @@ async function load() {
                 // Define file paths
                 const chatJsonPath = join(directory, subDir, 'chat.json');
                 const roomJsonPath = join(directory, subDir, 'room.json');
-                const contentPath = join(directory, subDir, 'content');
  
                 // Load chat.json
                 let chatData = {};
@@ -55,7 +54,7 @@ async function createSaveEditor(name, owner) {
             JSON.stringify({name, owner, mode: 'ace/mode/javascript'}, null, 4), 
             'utf8'
         );
-        await writeFile(join(directory, 'chat.json'), JSON.stringify({}, null, 4), 'utf8');
+        await writeFile(join(directory, 'chat.json'), JSON.stringify([], null, 4), 'utf8');
         await writeFile(join(directory, 'content'), "", 'utf8');
     } catch (error) {}
 }
@@ -102,14 +101,22 @@ async function saveLang(editor, lang) {
     } catch (err) {return ""; }
 };
 
+async function saveDialog(editor, username, message, time) {
+    const roomFile = join(editor.path, 'chat.json');
+    editor.chatData.push({username, message, time});
+    try {
+        await writeFile(roomFile, JSON.stringify(editor.chatData, null, 4), 'utf8');
+    } catch (err) {return ""; }
+};
+
 
 const store = {
     load,
     content,
     createSaveEditor,
     saveContent,
-    saveLang
+    saveLang,
+    saveDialog
 };
-
 
 export default store;

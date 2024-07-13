@@ -19,7 +19,7 @@
 .chat-bubble {
   position: relative;
   margin: 1.25rem;
-  max-width: 16rem;
+  max-width: 19rem;
 }
 
 .chat-bubble-left {
@@ -67,6 +67,7 @@
   width:100%;
 }
 .chat-bubble .block-info .username {
+  font-weight: bold;
   display:inline-block;
-  width:70%;
+  width:40%;
 }

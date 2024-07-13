@@ -4,7 +4,7 @@ const modeList = ace.require("ace/ext/modelist");
 const languageTools = ace.require("ace/ext/language_tools");
 
 const socket = io();
-let currentUsername = localStorage.getItem('username') || null;
+let currentUsername = localStorage.getItem('username').trim().substring(0, 15) || null;
 let currentRoom = localStorage.getItem('current_room') || null;
 
 function getFileExtension() {
@@ -53,17 +53,34 @@ function showToast(message, container) {
   );
 }
 
-function getChatMessage(username, message, type = "right") {
-  const date = new Date();
-  const time = date.toLocaleTimeString("fr-FR", {
-    hour: "numeric",
-    minute: "numeric"
-  });
-  return `
+// get all messages
+function getChatAllMessages(messages) {
+  console.log(messages);
+    let content = "";
+    if(messages.length > 0) {
+        messages.forEach((currentMsg) => {
+          content += getChatMessage(
+                currentMsg.username,
+                currentMsg.message,
+                currentMsg.time, 
+                (currentMsg.username == currentUsername)? "right" : "left" 
+            );
+        });
+    }
+    return content;
+}
+
+function getChatMessage(username, message, date, type = "right") {
+  const parser = new DOMParser();
+  type = parser.parseFromString(type, "text/html").body.textContent;
+  username = parser.parseFromString(username, "text/html").body.textContent;
+  date = parser.parseFromString(date, "text/html").body.textContent;
+  message = parser.parseFromString(message, "text/html").body.textContent;
+   return `
     <div class="chat-bubble chat-bubble-${type} px-3 py-1">
       <div class="text-muted block-info">
         <small class="username">${username}</small>
-        <small>${time}</small>
+        <small>${date}</small>
       </div>
       <div class="text-left">${message}</div>
     </div>
@@ -72,12 +89,10 @@ function getChatMessage(username, message, type = "right") {
 
 function getPeopleList(users) {
   let html = "";
+  const parser = new DOMParser();
   for (let i = 0; i < users.length; i += 1) {
-    html += `
-      <li class="list-group-item list-group-item-action">
-        ${users[i].name}
-      </li>
-    `;
+    const username = parser.parseFromString(users[i].name.trim().substring(0, 15), "text/html").body.textContent
+    html += `<li class="list-group-item list-group-item-action">${username}</li>`;
   }
   return html;
 }
@@ -228,7 +243,7 @@ onDocumentReady(() => {
         usernameInputEl.classList.add("is-invalid");
         usernameErrorEl.innerHTML = error;
       } else {
-        currentUsername = usernameInputEl.value.trim();
+        currentUsername = usernameInputEl.value.trim().substring(0, 15);
         addRoomsIOwn(shareInputEl.dataset.room);
         localStorage.setItem('username', currentUsername);
         
@@ -247,10 +262,18 @@ onDocumentReady(() => {
 
   chatButtonEl.onclick = () => {
     const message = chatInputEl.value;
-    const messageHTML = getChatMessage(currentUsername, message, "right");
+    const date = new Date();
+    const time = date.toLocaleTimeString("fr-FR", {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric'
+    });
+    const messageHTML = getChatMessage(currentUsername, message, time, "right");
     chatContainerEl.insertAdjacentHTML("beforeend", messageHTML);
     chatContainerEl.scrollTo({ top: chatContainerEl.scrollHeight });
-    socket.emit("chatMessage", message);
+    socket.emit("chatMessage", message, time);
     chatInputEl.value="";
   };
 
@@ -264,14 +287,24 @@ onDocumentReady(() => {
     activePeopleListEl.innerHTML = getPeopleList(users);
   });
 
-  socket.on("chatMessage", ({ username, message }) => {
+  
+  socket.on("chatAllMessages", (messages) => {
+    if (chatDrawerEl.style.visibility !== "visible") {
+      unreadMessageCountEl.hidden = false;
+      unreadMessageCountEl.textContent = Number.parseInt(messages.length, 10) ;
+    }
+    const messageHTML = "";
+    chatContainerEl.innerHTML += getChatAllMessages(messages);
+    chatContainerEl.scrollTo({ top: chatContainerEl.scrollHeight });
+  });
+
+  socket.on("chatMessage", ({ username, message, time }) => {
     if (chatDrawerEl.style.visibility !== "visible") {
       unreadMessageCountEl.hidden = false;
       unreadMessageCountEl.textContent =
         Number.parseInt(unreadMessageCountEl.textContent, 10) + 1;
     }
-    const messageHTML = getChatMessage(username, message, "left");
-    chatContainerEl.innerHTML += messageHTML;
+    chatContainerEl.innerHTML += getChatMessage(username, message, time, "left");;
     chatContainerEl.scrollTo({ top: chatContainerEl.scrollHeight });
   });
 

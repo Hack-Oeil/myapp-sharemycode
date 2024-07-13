@@ -39,6 +39,7 @@ export default async (server, i18n) => {
               if(currentEditor.roomData && currentEditor.roomData.mode) {
                 socket.emit("langChange", { room, lang : currentEditor.roomData.mode});
               }
+              socket.emit("chatAllMessages", currentEditor.chatData);
               // Si l'utilisateur courant était le propriétaire de cet editor
               if(currentEditor.roomData && currentEditor.roomData.owner && currentEditor.roomData.owner === user.name) {
                 socket.emit('userRommOwner', user.room.id);
@@ -57,12 +58,22 @@ export default async (server, i18n) => {
         socket.on("chatMessage", (message) => {
           const user = userStore.fetchUser(socket.id);
           if (user) {
-            socket
-              .in(user.room.id)
-              .emit("chatMessage", { username: user.name, message });
+            const date = new Date();
+            const time = date.toLocaleTimeString("fr-FR", {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: 'numeric'
+            });
+            // Enregistrement du content pour sauvegarde
+            const currentEditor = editors.find(item => item.name === user.room.id);
+            if (currentEditor) { editorStore.saveDialog(currentEditor, user.name, message, time); }
+
+            socket.in(user.room.id).emit("chatMessage", { username: user.name, message, time });
           }
         });
-      
+
         // Quand on reccoit un code (content) modifié
         socket.on("codeChange", (code) => {
           const user = userStore.fetchUser(socket.id);
