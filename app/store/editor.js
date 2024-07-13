@@ -31,7 +31,6 @@ async function load() {
                 if (await fileExists(roomJsonPath)) {
                     roomData = await readAndParseJson(roomJsonPath);                
                 }
-                //console.log({name: subDir, contentPath, chatData, roomData})
                 EDITOR_STORE.push({name: subDir, path: join(directory, subDir), chatData, roomData});
             }
         }        
@@ -85,14 +84,14 @@ async function content(editor) {
             content = await readFile(contentFile, 'utf8');                
         }
         return content;
-    } catch (err) { console.log(err); return ""; }
+    } catch (err) { return ""; }
 };
 
 async function saveContent(editor, content) {
     const contentFile = join(editor.path, 'content');
     try {
         await writeFile(contentFile, content, 'utf8');
-    } catch (err) { console.log(err); return ""; }
+    } catch (err) { return ""; }
 };
 
 async function saveLang(editor, lang) {
@@ -100,7 +99,7 @@ async function saveLang(editor, lang) {
     editor.roomData.mode = lang;
     try {
         await writeFile(roomFile, JSON.stringify(editor.roomData, null, 4), 'utf8');
-    } catch (err) { console.log(err); return ""; }
+    } catch (err) {return ""; }
 };
 
 

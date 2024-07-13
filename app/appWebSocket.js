@@ -10,7 +10,6 @@ export default async (server, i18n) => {
     const editors = await editorStore.load();
     // On génére les rooms existantes
     editors.forEach((editor) => {
-      console.log(editor);
       roomStore.createRoom(editor.roomData.name, editor.roomData.owner);
     });
 
