@@ -4,6 +4,11 @@ A Fork web app that facilitates realtime sharing of code editor using socket.io 
 I added different functionalities and adapted to my needs for my training,
 The original repository is: https://github.com/kaushalmeena/myapp-sharemycode
 
+Improvements
+ - Room Owner
+ - Room Recording
+ - Multilingual
+
 
 ## Getting Started
 
