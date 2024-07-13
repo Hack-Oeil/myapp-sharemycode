@@ -89,7 +89,7 @@ function handleCodeChange() {
   let timeoutId;
 
   return () => {
-    clearTimeout(timeoutId);
+    //clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       const code = codeEditor.getValue();
       if (code !== prevCode) {
