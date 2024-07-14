@@ -43,7 +43,7 @@ export default async (server, i18n) => {
               // Si l'utilisateur courant était le propriétaire de cet editor
               if(currentEditor.roomData && currentEditor.roomData.owner && currentEditor.roomData.owner === user.name) {
                 socket.emit('userRommOwner', user.room.id);
-              }
+              } 
             })();
           } else {
             editorStore.createSaveEditor(room, user.name);

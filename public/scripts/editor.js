@@ -185,7 +185,7 @@ onDocumentReady(() => {
     enableBasicAutocompletion: true,
     enableSnippets: false,
     enableLiveAutocompletion: true,
-    readOnly: !ownerOfCurrentRoom() // On permet pas la modification si on est pas le propriétaire
+    readOnly: false // On permet pas la modification si on est pas le propriétaire
   });
 
   codeEditor.on("change", handleCodeChange());
@@ -289,7 +289,7 @@ onDocumentReady(() => {
 
   
   socket.on("chatAllMessages", (messages) => {
-    if (chatDrawerEl.style.visibility !== "visible") {
+    if (messages.length>0 && chatDrawerEl.style.visibility !== "visible") {
       unreadMessageCountEl.hidden = false;
       unreadMessageCountEl.textContent = Number.parseInt(messages.length, 10) ;
     }
